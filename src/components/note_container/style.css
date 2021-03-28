@@ -1,0 +1,50 @@
+.note_container {
+	margin: 18px 10px 10px 10px;
+}
+
+.note {
+	margin-bottom: 15px;
+	padding: 6px;
+	border: 1px solid rgb(0, 140, 255);
+	border-radius: 10px;
+	background: linear-gradient(180deg, rgb(156, 210, 255) 0%, rgba(139, 222, 255, 0.715) 35%);
+}
+
+.note_date {
+	
+	margin-bottom: 2px;
+	color: gray;
+	border-bottom: 1px solid gray;
+}
+
+.note_finished {
+	padding: -1px;
+	margin-right: 4px;
+	display:inline-block;
+	border: 1px solid rgb(0, 140, 255);
+	border-radius: 15px;
+}
+
+.note_text {
+	display: inline-block;
+}
+
+.note_delete {
+	float:right;
+	border: 1px solid rgb(0, 140, 255);
+	border-radius: 15px;
+}
+
+.note_form {
+	margin: 10px;
+	padding: 6px;
+}
+
+.note_textarea {
+    background-color: rgb(215, 247, 255);
+    border: 1px solid rgb(0, 140, 255);
+}
+
+.note_submit_new {
+    margin-top: 3px;
+}
