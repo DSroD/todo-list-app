@@ -65,7 +65,6 @@ const NoteContainer: FunctionalComponent = () => {
     }
 
     function handleChange(e : any) {
-        console.log("change!");
         setNewNote(e.target.value);
     }
 
@@ -88,7 +87,7 @@ const NoteContainer: FunctionalComponent = () => {
         <div class="row">
             <div class="col-md-8">
                 <div class={style.note_container}>
-                    {noteData.reverse().map((data, key) => {
+                    {noteData.slice().reverse().map((data, key) => {
                         return(
                             <div class={style.note}>
                                 <div class={style.note_date}>{data.noteDate}</div>
