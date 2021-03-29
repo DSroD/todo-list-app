@@ -3,6 +3,7 @@
 }
 
 .note {
+	margin: auto;
 	margin-bottom: 15px;
 	padding: 6px;
 	border: 1px solid rgb(0, 140, 255);
@@ -10,28 +11,43 @@
 	background: linear-gradient(180deg, rgb(156, 210, 255) 0%, rgba(139, 222, 255, 0.715) 35%);
 }
 
+.note_inside {
+	display: flex;
+	justify-content: space-between;
+}
+
 .note_date {
-	
 	margin-bottom: 2px;
 	color: gray;
 	border-bottom: 1px solid gray;
 }
 
 .note_finished {
-	padding: -1px;
+	width: 40px;
+	height: 40px;
+	margin-top: auto;;
 	margin-right: 4px;
-	display:inline-block;
 	border: 1px solid rgb(0, 140, 255);
 	border-radius: 15px;
 }
 
 .note_text {
-	display: inline-block;
+	word-wrap: break-word;
+	padding-top:5px;
+	height: 100%;
+	max-width:80%;
+	text-align: left;
 }
 
 .note_delete {
-	display: inline-block;
-	float:right;
+	margin-left: auto;
+	margin-top: auto;
+}
+
+.note_delete_button {
+	
+	width: 40px;
+	height: 40px;
 	border: 1px solid rgb(0, 140, 255);
 	border-radius: 15px;
 }

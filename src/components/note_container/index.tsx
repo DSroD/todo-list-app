@@ -103,15 +103,19 @@ const NoteContainer: FunctionalComponent = () => {
                         return(
                             <div class={style.note}>
                                 <div class={style.note_date}>{data.noteDate}</div>
-                                <div class={style.note_finished}>
-                                    <button class="btn" onClick={()=> setFinished(data.note_id, data.finished)}>
-                                        {data.finished && <i class="fas fa-check"></i>}
-                                        {!data.finished && <i class="fas fa-times"></i>}
-                                    </button>
-                                </div>
-                                <div class={style.note_text}>{data.noteText}</div>
-                                <div class={style.note_delete}>
-                                    <button class="btn" onClick={() => deleteNote(data.note_id)}><i class="fas fa-trash"></i></button>
+                                <div class={style.note_inside}>
+                                    <div class={style.note_finished}>
+                                        <button class="btn" onClick={()=> setFinished(data.note_id, data.finished)}>
+                                            {data.finished && <i class="fas fa-check"></i>}
+                                            {!data.finished && <i class="fas fa-times"></i>}
+                                        </button>
+                                    </div>
+                                    <div class={style.note_text}>{data.noteText}</div>
+                                    <div class={style.note_delete}>
+                                        <div class={style.note_delete_button}>
+                                        <button class="btn" onClick={() => deleteNote(data.note_id)}><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         );
