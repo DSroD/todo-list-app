@@ -1,6 +1,7 @@
 import { FunctionalComponent, h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import { appconfig } from '../../appconfig';
+import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 
 import style from './style.css';
 //import Note from '../note';
@@ -16,8 +17,14 @@ const NoteContainer: FunctionalComponent = () => {
     const [noteData, setData] = useState<Array<NoteModel>>([]);
     const [newNote, setNewNote] = useState<string>("");
 
+    const hubConnection = new HubConnectionBuilder()
+        .withUrl(appconfig.API_URL + "update")
+        .configureLogging(LogLevel.Information)
+        .build();
 
-    async function onTimer() : Promise<void> {
+    const [hubConn, setHubConn] = useState(hubConnection);
+
+    async function onUpdateRequest() : Promise<void> {
         const res = await fetch(appconfig.API_URL + "Note", {
             headers: {'Content-Type': 'text/plain'},
             mode: 'cors',
@@ -32,7 +39,7 @@ const NoteContainer: FunctionalComponent = () => {
             method: 'POST',
             body: JSON.stringify({finished: !finished}),
             headers: {'Content-Type': 'application/json'}
-        }).then(res => onTimer());
+        }).then(async res => await hubConn.invoke("sendUpdateCall"));
     };
 
     function today() {
@@ -57,11 +64,13 @@ const NoteContainer: FunctionalComponent = () => {
                 finished: false
               }),
             headers: {'Content-Type': 'application/json'}
-        }).then(res => {
+        }).then(async res => {
             if(res.status == 201) {
+                onUpdateRequest();
                 setNewNote("");
+                await hubConn.invoke("sendUpdateCall");
             }
-        }).then(()=> onTimer());
+        });
     }
 
     function handleChange(e : any) {
@@ -73,14 +82,17 @@ const NoteContainer: FunctionalComponent = () => {
 
         if(cf) {
             fetch(appconfig.API_URL + "Note/" + note_id, {
-                method: 'DELETE'}).then(res => onTimer());
+                method: 'DELETE'}).then(async res => await hubConn.invoke("sendUpdateCall"));
         }
     };
 
     useEffect(() => {
-        onTimer();
-        const timerInterval = setInterval(() => {onTimer()}, 10000);
-        return () => clearInterval(timerInterval);
+        hubConn.start().then(() => {
+            onUpdateRequest();
+        });
+        hubConn.on("updatePlease", () => {
+            onUpdateRequest();
+        });
     }, []);
 
     return(
@@ -111,7 +123,7 @@ const NoteContainer: FunctionalComponent = () => {
                     <form onSubmit={saveNote} action="#">
                         <div class="form-group">
                             <label>New note</label>
-                            <textarea class={style.note_textarea + ' form-control'} rows={5} value={newNote} onInput={handleChange}/>
+                            <textarea class={style.note_textarea + ' form-control'} rows={5} value={newNote} onChange={handleChange}/>
                         </div>
                         <div class="form-group">
                             <input type="submit" class="btn btn-primary btn-lg btn-block" value="Save" />
